@@ -28,6 +28,37 @@ public:
     */
     
     vector<vector<int>> threeSum(vector<int>& nums) {
-        
+        vector<vector<int>> triplets{};
+        int lower{};
+        int upper{};
+        sort(nums.begin(), nums.end());
+
+        for (int i{0}; i < nums.size() - 1; ++i) {
+            lower = i + 1;
+            upper = nums.size() - 1;
+            if (nums[i] > 0) break;
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            while (upper > lower) {
+                int sum = nums[i] + nums[lower] + nums[upper];
+
+                if (sum == 0) {
+                    triplets.push_back({nums[i], nums[lower], nums[upper]});
+                    --upper;
+                    ++lower;
+                    while (upper > lower && nums[upper] == nums[upper + 1]) {
+                        --upper;
+                    }
+                    while (upper > lower && nums[lower] == nums[lower - 1]) {
+                        ++lower;
+                    }
+                } else if (sum > 0) {
+                    --upper;
+                } else {
+                    ++lower;
+                }
+            }
+        }
+        return triplets;
     }
 };
